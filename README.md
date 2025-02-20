@@ -12,7 +12,7 @@ PROJECT TILE : 🛍️ Online Shop – Hackathon Phase 1 Submission
    * git branch
    * git add Dockerfile_multistage
    * git commit -m "final Dockerfile_multistage" Dockerfile_multistage
-   * git push origin hackathon_solutio
+   * git push origin hackathon_solution
   
 - **Linux:**  These commands are fundamental for performing various tasks in a Linux-based operating system for experienced users. linux commands can be used to navigate through the files / respositories.
   - It is used to install docker file - sudo apt-get install docker.io
