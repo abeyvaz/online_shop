@@ -2,7 +2,7 @@ PROJECT TILE : 🛍️ Online Shop – Hackathon Phase 1 Submission
 
 
 ## Overview
-The file to check is in brach hackathon_solution => Dockerfile Dockerfile_multistage
+The file to check is in branch hackathon_solution => Dockerfile Dockerfile_multistage
 
 - **Git & GitHub:** First thing is to fork the project into my respository and make a clone in the local EC2 instance.
    * Then Git INIT ( git init )  in the working directory to TRACK all the changes in the file and commit it.
