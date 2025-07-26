@@ -1,88 +1,142 @@
-PROJECT TILE : 🛍️ Online Shop – Hackathon Phase 1 Submission 
+Here's a **cleaned-up, professional, and GitHub-friendly** version of your README file, properly formatted using Markdown for clarity, readability, and structure:
 
+---
 
-## Overview
-The file to check is in branch hackathon_solution => Dockerfile Dockerfile_multistage
+# 🛒 Online Shop – Dockerized Setup (Hackathon Solution)
 
-- **Git & GitHub:** First thing is to fork the project into my respository and make a clone in the local EC2 instance.
-   * Then Git INIT ( git init )  in the working directory to TRACK all the changes in the file and commit it.
-   * git status - tells you which files are not being tracker in the current folder
-   * git clone is used to clone the project in our local repository :- git clone https://github.com/abeyvaz/online_shop.git
-   * git add Dockerfile & Dockerfile_multistage to track the changes
-   * git commit -m " message " Dockerfile Dockerfile_multistage
-   * git branch
-   * git add Dockerfile_multistage
-   * git commit -m "final Dockerfile_multistage" Dockerfile_multistage
-   * git push origin hackathon_solution
-  
-- **Linux:**  These commands are fundamental for performing various tasks in a Linux-based operating system for experienced users. linux commands can be used to navigate through the files / respositories.
-  - It is used to install docker file - sudo apt-get install docker.io
-  - Added $USER in docker group - sudo usermod -aG docker $USER
-  - To login into the new group docker - newgrp docker
-  - created a new Docker file - vim Dockerfile
-    * To navigate through the file system - cd , cd ..
-    * To show the list of files & their permissioned - ls , ls -l
-    
-- **Docker:** Docker is a set of platform as a service (PaaS) products that use OS-level virtualization to deliver software in packages called containers. The service has both free and premium tiers. The software that hosts the containers is called Docker Engine.
-  - Created a Docker file - vim Dockerfile & Dockerfile_multistage 
-      * Docker ps :- to show all the running container
-      * Docker ps -a :- will show you all the stopped containers  
-      * Docker images - to show all the images
-      * Docker stop ID  - will stop the running images
-      * Docker system prune - will clear all the stopped containers
-       
-The below are the steps needed to build a docker file 
+This project demonstrates how to containerize a Node.js frontend app using both **single-stage** and **multi-stage** Docker builds. It includes setup instructions for **Git/GitHub**, **Linux**, and **Docker** on an EC2 instance.
 
-#BASE OS
-FROM node:22-alpine3.20
+---
 
-#working directory for the app
+## 📂 Branch to Work On
+
+> **Branch:** `hackathon_solution`
+> Files: `Dockerfile`, `Dockerfile_multistage`
+
+---
+
+## 🐙 Git & GitHub Workflow
+
+1. **Fork** the project to your GitHub account.
+2. **Clone** it into your EC2 instance:
+
+   ```bash
+   git clone https://github.com/abeyvaz/online_shop.git
+   cd online_shop
+   ```
+3. **Initialize Git** (if not already initialized):
+
+   ```bash
+   git init
+   ```
+4. **Check file status**:
+
+   ```bash
+   git status
+   ```
+5. **Track changes**:
+
+   ```bash
+   git add Dockerfile Dockerfile_multistage
+   ```
+6. **Commit changes**:
+
+   ```bash
+   git commit -m "Initial Dockerfile changes"
+   ```
+7. **Push to remote branch**:
+
+   ```bash
+   git branch  # (optional: to list current branches)
+   git push origin hackathon_solution
+   ```
+
+---
+
+## 🐧 Linux Essentials for Docker Setup
+
+These commands are useful for managing files and Docker installation on a Linux-based EC2 instance:
+
+| Task                             | Command                          |
+| -------------------------------- | -------------------------------- |
+| Install Docker                   | `sudo apt-get install docker.io` |
+| Add current user to Docker group | `sudo usermod -aG docker $USER`  |
+| Switch to Docker group           | `newgrp docker`                  |
+| Navigate filesystem              | `cd`, `cd ..`                    |
+| List files and permissions       | `ls`, `ls -l`                    |
+| Create/edit Dockerfile           | `vim Dockerfile`                 |
+
+---
+
+## 🐳 Docker Essentials
+
+| Task                                    | Command                      |
+| --------------------------------------- | ---------------------------- |
+| Show running containers                 | `docker ps`                  |
+| Show all containers (including stopped) | `docker ps -a`               |
+| List Docker images                      | `docker images`              |
+| Stop a container                        | `docker stop <container_id>` |
+| Clean up stopped containers/images      | `docker system prune`        |
+
+---
+
+## 🏗️ Dockerfile – Multi-stage Production Build
+
+This optimized build uses `node:20-alpine` and serves the static app using `serve`. It's fast, lightweight, and production-ready.
+
+```dockerfile
+# Stage 1: Build the app
+FROM node:20-alpine AS builder
+
+# Set working directory
 WORKDIR /app
 
-#COPY the code from your HOST to your Container 
-COPY . .
-
-#Run the command to install the Lib to compile code 
+# Copy package files and install dependencies
+COPY package*.json ./
 RUN npm install
 
-#EXPOSE the port 
-EXPOSE 5173
-
-#Serve the app / Keep it running 
-CMD ["npm","run","dev"]
-
-
-========
-
-#Stage1
-FROM node:20-slim AS builder
-
-#working directory for the app
-WORKDIR /app
-
-#copy dependencies
-COPY package.json .
-
-#Run the command to install the Lib to compile code 
-RUN npm install
-
-#copy rest of the application
+# Copy source code and build the app
 COPY . .
+RUN npm run build
 
-
-#Stage 2 
-
-FROM gcr.io/distroless/nodejs20-debian12
+# Stage 2: Serve the built app with 'serve'
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app .
+# Install static file server
+RUN npm install -g serve
 
-#EXPOSE the port 
+# Copy only the built output from builder
+COPY --from=builder /app/dist ./dist
+
+# Expose the app's port
 EXPOSE 5173
 
-#Serve the app / Keep it running 
-CMD ["npm","run","dev"]
+# Start the static server
+CMD ["serve", "-s", "dist", "-l", "5173"]
+```
+
+---
+
+## ✅ Summary
+
+* ✔️ Dockerized with **multi-stage builds** for minimal image size.
+* ✔️ Integrated with **Git version control**.
+* ✔️ Linux and Docker setup on EC2 covered.
+* ✔️ Ready for **deployment** with production-grade practices.
+
+---
+
+Feel free to modify or expand this README with:
+
+* 🧪 Test instructions
+* 📸 Screenshots
+* 🔧 Environment variables or `.env` setup
+* 🚀 Deployment steps (Docker Hub, AWS ECS, etc.)
+
+Let me know if you'd like help with those additions!
+
 
 
 
