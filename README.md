@@ -1,7 +1,3 @@
-Here's a **cleaned-up, professional, and GitHub-friendly** version of your README file, properly formatted using Markdown for clarity, readability, and structure:
-
----
-
 # 🛒 Online Shop – Dockerized Setup (Hackathon Solution)
 
 This project demonstrates how to containerize a Node.js frontend app using both **single-stage** and **multi-stage** Docker builds. It includes setup instructions for **Git/GitHub**, **Linux**, and **Docker** on an EC2 instance.
@@ -126,16 +122,6 @@ CMD ["serve", "-s", "dist", "-l", "5173"]
 * ✔️ Linux and Docker setup on EC2 covered.
 * ✔️ Ready for **deployment** with production-grade practices.
 
----
-
-Feel free to modify or expand this README with:
-
-* 🧪 Test instructions
-* 📸 Screenshots
-* 🔧 Environment variables or `.env` setup
-* 🚀 Deployment steps (Docker Hub, AWS ECS, etc.)
-
-Let me know if you'd like help with those additions!
 
 
 
